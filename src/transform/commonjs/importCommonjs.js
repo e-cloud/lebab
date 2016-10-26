@@ -6,6 +6,7 @@ import ImportDeclaration from '../../syntax/ImportDeclaration';
 import ImportSpecifier from '../../syntax/ImportSpecifier';
 import ImportDefaultSpecifier from '../../syntax/ImportDefaultSpecifier';
 import VariableDeclaration from '../../syntax/VariableDeclaration';
+import ImportRequireDeclaration from '../../syntax/ImportRequireDeclaration';
 
 export default function(ast, logger) {
   traverser.replace(ast, {
@@ -36,7 +37,7 @@ function varToImport(dec, kind) {
       return patternToNamedImport(m);
     }
     else if (m.id.type === 'Identifier') {
-      return identifierToDefaultImport(m);
+      return identifierToRequireImport(m);
     }
   }
   else if ((m = matchRequireWithProperty(dec))) {
@@ -48,6 +49,13 @@ function varToImport(dec, kind) {
   else {
     return new VariableDeclaration(kind, [dec]);
   }
+}
+
+function identifierToRequireImport({id, sources}) {
+  return new ImportRequireDeclaration({
+    specifiers: [new ImportDefaultSpecifier(id)],
+    source: sources[0],
+  });
 }
 
 function patternToNamedImport({id, sources}) {

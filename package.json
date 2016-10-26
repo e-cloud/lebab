@@ -21,6 +21,8 @@
   "files": [
     "lib",
     "bin",
+    "hack.js",
+    "printer.js",
     "index.js"
   ],
   "repository": {

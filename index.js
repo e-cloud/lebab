@@ -1,3 +1,5 @@
+require('./hack');
+
 var builtinTransforms = require('./lib/builtinTransforms'); // eslint-disable-line no-var
 
 /**
